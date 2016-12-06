@@ -1,0 +1,137 @@
+<html>
+<head>
+	<title>Random Quote Machine</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<style type="text/css">
+
+		#main-conainer{
+			margin:150px  200px  150px 200px;
+			width: auto;
+		}
+
+		body{
+			background-color: #FFF;
+		}
+
+		#quote-container{
+			background-color: #FFF;
+			height: 150px;
+		}
+
+
+	</style>
+
+</head>
+<body>
+
+	<div id="main-conainer" class="container-fluid">
+
+		<div id="quote-container">
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<button id="random-button" class="btn btn-primary">
+					Generate random quote
+				</button>
+			</div>
+			<div class="col-md-6">
+				<button id="twitter-button" class="btn btn-primary twitter-share-button">
+					Twittear
+				</button>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+
+	var url = "";
+
+	function limitar140(quote,author){
+		var cadena = "";
+		var quoteLength = quote.length;
+		var authorLength = author.length + 1;
+		var urlLength = 23 + 1;
+		if ((quoteLength+authorLength+urlLength) > 140){
+			var copiarHasta = (quoteLength+authorLength+urlLength) - 140 + 3; 
+			cadena = quote.slice(0,-copiarHasta) + "...";
+		} else cadena = quote; 
+		return cadena;
+	}
+
+
+
+
+	function test(){
+		if (location.hash !== ""){
+			//cargar la movdida en funcion del hash value
+			$.getJSON("https://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?",function(json) {
+		    	
+		    	//url con la quote correspondiente para hacer la redireccion en tweeter
+		    	url = "";
+		    	url = "https://theedu.github.io/random-quote-machine#";
+		    	url = url + json["id"];
+
+		    	var keys = Object.getOwnPropertyNames(json).reverse();
+				var html = "";
+				keys.forEach(function(key) {
+					if (key !== "id" && key !== "permalink")
+						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
+				});
+				$("#quote-container").html(html);
+			});
+		};
+	};
+
+	window.onhashchange = test;
+
+
+	$(document).ready(function() {
+
+		test();
+		
+	    $("#random-button").on("click",function(){
+
+	    	location.hash = "";
+		    $.getJSON("https://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?",function(json) {
+		    	
+		    	//url con la quote correspondiente para hacer la redireccion en tweeter
+		    	url = "";
+		    	url = "http://quotes.stormconsultancy.co.uk/quotes/";
+		    	url = url + json["id"];
+
+		    	var keys = Object.getOwnPropertyNames(json).reverse();
+				var html = "";
+				keys.forEach(function(key) {
+					if (key !== "id" && key !== "permalink")
+						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
+				});
+				$("#quote-container").html(html);
+			});
+		});
+
+		$("#twitter-button").on("click",function(){
+			var quoteToTweet = $("#quote").html();
+			var authorToTweet = $("#author").html();
+			var textToTweet = limitar140(quoteToTweet,authorToTweet) + "\n" + authorToTweet;
+			var twtLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(textToTweet)
+			+ "&url=" + encodeURIComponent(url);
+			window.open(twtLink,'_blank');
+		});
+	});
+
+
+</script>
+
+
+</html>
