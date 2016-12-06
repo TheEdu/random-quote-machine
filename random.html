@@ -69,9 +69,42 @@
 		return cadena;
 	}
 
+
+
+
+	function test(){
+		if (location.hash !== ""){
+			//cargar la movdida en funcion del hash value
+			$.getJSON("http://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?",function(json) {
+		    	
+		    	//url con la quote correspondiente para hacer la redireccion en tweeter
+		    	url = "";
+		    	url = "http://quotes.stormconsultancy.co.uk/quotes/";
+		    	url = url + json["id"];
+
+		    	var keys = Object.getOwnPropertyNames(json).reverse();
+				var html = "";
+				keys.forEach(function(key) {
+					if (key !== "id" && key !== "permalink")
+						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
+				});
+				$("#quote-container").html(html);
+			});
+		};
+	};
+
+	window.onhashchange = test;
+
+
+
+
 	$(document).ready(function() {
 
+		test();
+		
 	    $("#random-button").on("click",function(){
+
+	    	location.hash = "";
 		    $.getJSON("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?",function(json) {
 		    	
 		    	//url con la quote correspondiente para hacer la redireccion en tweeter
