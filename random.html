@@ -44,24 +44,34 @@
 
 <script type="text/javascript">
 
+	function limitar140(quote,author){
+		var cadena = "";
+		var quoteLength = quote.length;
+		var authorLength = author.length + 1;
+		if ((quoteLength+authorLength) > 140) 
+			cadena = quote.slice(0,140-authorLength-3) + "...";
+				else cadena = quote; 
+		return cadena;
+	}
+
 	$(document).ready(function() {
 
 	    $("#random-button").on("click",function(){
 		    $.getJSON("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?",function(json) {
 		    	var keys = Object.getOwnPropertyNames(json).reverse();
-				var html = "<div>";
+				var html = "";
 				keys.forEach(function(key) {
 					if (key !== "id" && key !== "permalink")
-						html += "<div id=" + "'#"  + key + "' >" + json[key] + "</div>" + "<br>";
-						//html += "<strong>" + key + "</strong>: " + json[key] + "<br>";
+						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
 				});
-				html += "</div><br>";
 				$("#text").html(html);
 			});
 		});
 
 		$("#twitter-button").on("click",function(){
-			var textToTweet = $("#text").html();
+			var quoteToTweet = $("#quote").html();
+			var authorToTweet = $("#author").html();
+			var textToTweet = limitar140(quoteToTweet,authorToTweet) + "\n" + authorToTweet;
 			var twtLink = "https://twitter.com/intent/tweet?text=" +encodeURIComponent(textToTweet);
 			window.open(twtLink,'_blank');
 		});
