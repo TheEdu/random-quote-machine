@@ -75,11 +75,11 @@
 	function test(){
 		if (location.hash !== ""){
 			//cargar la movdida en funcion del hash value
-			$.getJSON("http://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?",function(json) {
+			$.getJSON("https://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?",function(json) {
 		    	
 		    	//url con la quote correspondiente para hacer la redireccion en tweeter
 		    	url = "";
-		    	url = "http://quotes.stormconsultancy.co.uk/quotes/";
+		    	url = "https://theedu.github.io/random-quote-machine#";
 		    	url = url + json["id"];
 
 		    	var keys = Object.getOwnPropertyNames(json).reverse();
@@ -94,8 +94,6 @@
 	};
 
 	window.onhashchange = test;
-
-
 
 
 	$(document).ready(function() {
