@@ -67,15 +67,11 @@
 			cadena = quote.slice(0,-copiarHasta) + "...";
 		} else cadena = quote; 
 		return cadena;
-	}
+	};
 
 
-
-
-	function test(){
-		if (location.hash !== ""){
-			//cargar la movdida en funcion del hash value
-			$.getJSON("//quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?",function(json) {
+	function jsonToHtml(jsonUrl){
+			$.getJSON(jsonUrl,function(json) {
 		    	
 		    	//url con la quote correspondiente para hacer la redireccion en tweeter
 		    	url = "";
@@ -90,48 +86,42 @@
 				});
 				$("#quote-container").html(html);
 			});
-		};
 	};
 
-	window.onhashchange = test;
+	function quoteByHash(){
+		//cargar la movdida en funcion del hash value
+		jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?");
+
+	};
+
+	window.onhashchange = quoteByHash;
+
+
+    $("#random-button").on("click",function(){
+    	location.hash = "";
+    	jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?");
+	});
+
+	$("#twitter-button").on("click",function(){
+		var quoteToTweet = $("#quote").html();
+		var authorToTweet = $("#author").html();
+		var textToTweet = limitar140(quoteToTweet,authorToTweet) + "\n" + authorToTweet;
+		var twtLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(textToTweet)
+		+ "&url=" + encodeURIComponent(url);
+		window.open(twtLink,'_blank');
+	});	
 
 
 	$(document).ready(function() {
-
-		test();
-		
-	    $("#random-button").on("click",function(){
-
-	    	location.hash = "";
-		    $.getJSON("//quotes.stormconsultancy.co.uk/quotes/random.json?callback=?",function(json) {
-		    	
-		    	//url con la quote correspondiente para hacer la redireccion en tweeter
-		    	url = "";
-		    	url = "https://theedu.github.io/random-quote-machine#";
-		    	url = url + json["id"];
-
-		    	var keys = Object.getOwnPropertyNames(json).reverse();
-				var html = "";
-				keys.forEach(function(key) {
-					if (key !== "id" && key !== "permalink")
-						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
-				});
-				$("#quote-container").html(html);
-			});
-		});
-
-		$("#twitter-button").on("click",function(){
-			var quoteToTweet = $("#quote").html();
-			var authorToTweet = $("#author").html();
-			var textToTweet = limitar140(quoteToTweet,authorToTweet) + "\n" + authorToTweet;
-			var twtLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(textToTweet)
-			+ "&url=" + encodeURIComponent(url);
-			window.open(twtLink,'_blank');
-		});
+		if (location.hash !== "")
+			quoteByHash();
+		else
+			//jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?");
+		jsonToHtml("https://whateverorigin.herokuapp.com/get?url=" + 
+                       encodeURIComponent('http://quotes.stormconsultancy.co.uk/random.json') +
+                       "&callback=?");
 	});
 
-
 </script>
-
 
 </html>
