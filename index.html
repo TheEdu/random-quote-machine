@@ -72,7 +72,7 @@
 
 	function jsonToHtml(jsonUrl){
 			$.getJSON(jsonUrl,function(json) {
-		    	
+		    	json = JSON.parse(json.contents);
 		    	//url con la quote correspondiente para hacer la redireccion en tweeter
 		    	url = "";
 		    	url = "https://theedu.github.io/random-quote-machine#";
@@ -99,8 +99,11 @@
 
     $("#random-button").on("click",function(){
     	location.hash = "";
-    	jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?");
-	});
+    	//jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/random.json?callback=?");
+		jsonToHtml("https://whateverorigin.herokuapp.com/get?url=" + 
+               encodeURIComponent('http://quotes.stormconsultancy.co.uk/random.json') +
+               "&callback=?");
+});
 
 	$("#twitter-button").on("click",function(){
 		var quoteToTweet = $("#quote").html();
