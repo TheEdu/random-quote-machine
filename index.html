@@ -90,7 +90,12 @@
 
 	function quoteByHash(){
 		//cargar la movdida en funcion del hash value
-		jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?");
+		//jsonToHtml("http://quotes.stormconsultancy.co.uk/quotes/" + location.hash.slice(1) + ".json?callback=?");
+		if (location.hash !== "")
+			jsonToHtml("https://whateverorigin.herokuapp.com/get?url=" + 
+	               encodeURIComponent("http://quotes.stormconsultancy.co.uk/quotes/"  + location.hash.slice(1) + ".json") +
+	               "&callback=?");
+
 
 	};
 
