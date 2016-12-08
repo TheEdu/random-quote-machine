@@ -24,6 +24,7 @@
 
 		body{
 			background-color: #FFF;
+			transition:  background-color 2s;
 		}
 
 		#quote-container{
@@ -50,6 +51,49 @@
 			padding: 20px;
 		}
 
+		/***********************
+		  RAISED BUTTONS
+		************************/
+		.btn-primary.raised {
+		    box-shadow: 0 3px 0 0 #000;
+		}
+		.btn-primary.raised:active, .btn-primary.raised.active {
+		    background: #222;
+		    box-shadow: none;
+		    margin-bottom: -3px;
+		    margin-top: 3px;
+		}
+
+
+		/***********************
+		  CUSTON BTN VALUES
+		************************/
+
+		.btn {
+		    padding: 14px 24px;
+		    border: 0 none;
+		    font-weight: 700;
+		    letter-spacing: 1px;
+		    text-transform: uppercase;
+		}
+		.btn:focus, .btn:active:focus, .btn.active:focus {
+		    outline: 0 none;
+		}
+
+		.btn-primary {
+		    background: #222;
+		    color: #ffffff;
+		}
+		.btn-primary:hover, .btn-primary:active,.btn-primary:focus , .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+		    background: #222;
+		}
+
+		.btn-primary:active, .btn-primary.active {
+		    background: #222;
+		    box-shadow: none;
+		}
+
+
 	</style>
 
 </head>
@@ -71,18 +115,17 @@
 		<div id="quote-container" class="well">
 		</div>
 
-		<div class="row">
-			<div class="col-md-6">
-				<button id="random-button" class="btn btn-primary">
-					Generate random quote
-				</button>
-			</div>
-			<div class="col-md-6">
-				<button id="twitter-button" class="btn btn-primary twitter-share-button">
-					Twittear
-				</button>
-			</div>
+		<div >
+			<button id="random-button" class="btn btn-primary btn-lg raised">
+				Generate random quote
+			</button>
 		</div>
+		<div >
+			<button id="twitter-button" class="btn btn-primary twitter-share-button" style="margin-top:10px;">
+				Twittear
+			</button>
+		</div>
+
 
 	</div>
 
@@ -136,6 +179,10 @@
 
 	window.onhashchange = quoteByHash;
 
+	function randomRGB(){
+		return Math.floor(((255+1)*Math.random()));
+	};
+
 
     $("#random-button").on("click",function(){
     	location.hash = "";
@@ -143,7 +190,10 @@
 		jsonToHtml("https://whateverorigin.herokuapp.com/get?url=" + 
                encodeURIComponent('http://quotes.stormconsultancy.co.uk/random.json') +
                "&callback=?");
-});
+		
+		var rgbChange = "rgb(" + randomRGB() + "," + randomRGB() + "," + randomRGB() + ")";
+		$("body").css("background-color", rgbChange);
+	});
 
 	$("#twitter-button").on("click",function(){
 		var quoteToTweet = $("#quote").html();
