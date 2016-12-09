@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title>Random Quote Machine</title>
+	<link rel="icon" href="favicon-codepen.ico">
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Latest compiled and minified CSS -->
@@ -12,13 +13,16 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+	<!-- font-awesome -->
+	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
 	<style type="text/css">
 
 		#main-conainer{
-			margin-top: 250px;
+			margin-top: 130px;
 			margin-right: auto;
 			margin-left: auto;
-			width: 500px;
+			width: 800px;
 
 		}
 
@@ -29,7 +33,10 @@
 
 		#quote-container{
 			background-color: #FFF;
-			height: 220px;
+			height: auto;
+			font-weight: bold;
+			font-size:22px;
+			font-family: sans-serif;
 		}
 
 		#quote-nav{
@@ -112,7 +119,8 @@
 	<!-- Quote  -->
 	<div id="main-conainer" class="container-fluid">
 
-		<div id="quote-container" class="well">
+
+		<div id="quote-container" class="well">	
 		</div>
 
 		<div >
@@ -121,11 +129,8 @@
 			</button>
 		</div>
 		<div >
-			<button id="twitter-button" class="btn btn-primary twitter-share-button" style="margin-top:10px;">
-				Twittear
-			</button>
+			<button id="twitter-button" class="btn btn-primary twitter-share-button">Tweet</button>
 		</div>
-
 
 	</div>
 
@@ -159,10 +164,18 @@
 		    	var keys = Object.getOwnPropertyNames(json).reverse();
 				var html = "";
 				keys.forEach(function(key) {
-					if (key !== "id" && key !== "permalink")
-						html += "<div id=" + "'"  + key + "' >" + json[key] + "</div>" + "<br>";
+					if (key == "quote")
+						html += "<span id=" + "'"  + key + "' >" +json[key] + "</span>" + "<br><br>";
+					if (key == "author")
+						html += "<span id=" + "'"  + key + "' >" +json[key] + "</span>";
 				});
 				$("#quote-container").html(html);
+				$("#quote-container").prepend('<i class="fa fa-quote-left fa-2x" aria-hidden="true"></i>'+"&nbsp&nbsp");
+				
+
+				$("#quote-container").append('<button id="twitter-button" class="btn btn-primary twitter-share-button pull-right"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i>Tweet</button>');
+
+
 			});
 	};
 
@@ -206,6 +219,8 @@
 
 
 	$(document).ready(function() {
+		var rgbChange = "rgb(" + randomRGB() + "," + randomRGB() + "," + randomRGB() + ")";
+		$("body").css("background-color", rgbChange);
 		if (location.hash !== "")
 			quoteByHash();
 		else
