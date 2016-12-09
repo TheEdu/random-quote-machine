@@ -88,21 +88,6 @@
 			}
 		}
 
-
-		/***********************
-		  RAISED BUTTONS
-		************************/
-		.btn-primary.raised {
-		    box-shadow: 0 3px 0 0 #000;
-		}
-		.btn-primary.raised:active, .btn-primary.raised.active {
-		    background: #222;
-		    box-shadow: none;
-		    margin-bottom: -3px;
-		    margin-top: 3px;
-		}
-
-
 		/***********************
 		  CUSTON BTN VALUES
 		************************/
@@ -116,19 +101,6 @@
 		}
 		.btn:focus, .btn:active:focus, .btn.active:focus {
 		    outline: 0 none;
-		}
-
-		.btn-primary {
-		    background: #222;
-		    color: #ffffff;
-		}
-		.btn-primary:hover, .btn-primary:active,.btn-primary:focus , .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-		    background: #222;
-		}
-
-		.btn-primary:active, .btn-primary.active {
-		    background: #222;
-		    box-shadow: none;
 		}
 
 
@@ -157,15 +129,18 @@
 			&nbsp&nbsp
 			<span id="quote"></span>
 			<br><br>
-			<span id="author"></span>
-			<div  class="pull-right" >
-				<button id="twitter-button" class="btn twitter-share-button">
-					<i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-				</button>
-			<div>
+			<div class="row">
+				<div class="col-xs-8">
+					<span id="author"></span>
+				</div>
+				<div  class="col-xs-4" >
+					<button id="twitter-button" class="btn twitter-share-button pull-right">
+						<i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+					</button>
+				<div>
+			</div>
 
 		</div>
-		<!--<div ><button id="random-quote" class="btn btn-primary btn-lg raised">New quote</button></div>-->
 	</div>
 
 </body>
