@@ -34,9 +34,12 @@
 		#quote-container{
 			background-color: #FFF;
 			height: auto;
-			font-weight: bold;
 			font-size:22px;
 			font-family: sans-serif;
+		}
+
+		#author{
+			font-weight: bold;
 		}
 
 		#quote-nav{
@@ -77,9 +80,9 @@
 		************************/
 
 		.btn {
-		    padding: 14px 24px;
+		    padding: 7px 12px;
 		    border: 0 none;
-		    font-weight: 700;
+		    font-weight: 600;
 		    letter-spacing: 1px;
 		    text-transform: uppercase;
 		}
@@ -120,18 +123,21 @@
 	<div id="main-conainer" class="container-fluid">
 
 
-		<div id="quote-container" class="well">	
-		</div>
+		<div id="quote-container" class="well">
 
+			<i class="fa fa-quote-left fa-2x" aria-hidden="true"></i>
+			&nbsp&nbsp
+			<span id="quote"></span>
+			<br><br>
+			<span id="author"></span>
+			<button id="twitter-button" class="btn twitter-share-button pull-right"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></button>
+
+		</div>
 		<div >
 			<button id="random-button" class="btn btn-primary btn-lg raised">
 				Generate random quote
 			</button>
 		</div>
-		<div >
-			<button id="twitter-button" class="btn btn-primary twitter-share-button">Tweet</button>
-		</div>
-
 	</div>
 
 </body>
@@ -162,20 +168,13 @@
 		    	url = url + json["id"];
 
 		    	var keys = Object.getOwnPropertyNames(json).reverse();
-				var html = "";
+
 				keys.forEach(function(key) {
 					if (key == "quote")
-						html += "<span id=" + "'"  + key + "' >" +json[key] + "</span>" + "<br><br>";
+						$("#quote").html(json[key] );
 					if (key == "author")
-						html += "<span id=" + "'"  + key + "' >" +json[key] + "</span>";
+						$("#author").html(json[key] );
 				});
-				$("#quote-container").html(html);
-				$("#quote-container").prepend('<i class="fa fa-quote-left fa-2x" aria-hidden="true"></i>'+"&nbsp&nbsp");
-				
-
-				$("#quote-container").append('<button id="twitter-button" class="btn btn-primary twitter-share-button pull-right"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i>Tweet</button>');
-
-
 			});
 	};
 
@@ -209,6 +208,7 @@
 	});
 
 	$("#twitter-button").on("click",function(){
+		console.log("hola mundo");
 		var quoteToTweet = $("#quote").html();
 		var authorToTweet = $("#author").html();
 		var textToTweet = limitar140(quoteToTweet,authorToTweet) + "\n" + authorToTweet;
@@ -219,8 +219,10 @@
 
 
 	$(document).ready(function() {
+
 		var rgbChange = "rgb(" + randomRGB() + "," + randomRGB() + "," + randomRGB() + ")";
 		$("body").css("background-color", rgbChange);
+
 		if (location.hash !== "")
 			quoteByHash();
 		else
